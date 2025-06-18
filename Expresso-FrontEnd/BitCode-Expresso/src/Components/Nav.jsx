@@ -11,13 +11,13 @@ const Nav = () => {
         <div className=' '>
             <div className="navbar bg-[#6f4e37] text-white shadow-sm flex justify-between items-center fixed z-10 mb-[64px] mt-0">
   <div className="flex justify-center items-center gap-2">
-    <img className='w-10 h-10 bg-white rounded-full' src={logo} alt="" />
-    <p className='text-xl font-bold'>Bit Expresso</p>
+    <img className='w-7 h-7 md:w-10 md:h-10 bg-white rounded-full' src={logo} alt="" />
+    <p className='text-sm md:text-xl font-bold'>Bit Expresso</p>
   </div>
 
 {/* Menu   */}
 <div className='flex justify-between items-center'>
-    <ul className='flex justify-between items-center gap-4'>
+    <ul className='text-xs md:text-xl flex justify-between items-center gap-4'>
  <li><NavLink to="/">Home</NavLink></li>
  <li><NavLink to="/AllProducts">All Products</NavLink></li>
    <li><NavLink to='/About'>About</NavLink></li>

@@ -13,17 +13,17 @@ const FamousCoffee = () => {
             .then(res => res.json())
             .then(data => {
                 setFamousCoffee(data);
-                console.log(data);
+              
             })
 
     },
         [])
 
     return (
-        <div className=" relative h-[100vh] mt-10">
+        <div className=" relative  md:h-[100vh] mt-10">
             {/* Background image */}
 
-            <div className="absolute inset-0 z-10">
+            <div className="hidden md:block md:absolute md:inset-0 md:z-10">
                 <img src={chobi} className="max-h-screen w-screen " alt="" />
             </div>
 

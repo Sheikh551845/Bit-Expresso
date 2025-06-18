@@ -7,17 +7,17 @@ import fourth from '../images/icons/4.png';
 const Tags = () => {
     return (
         <div>
-            <div className=" h-[25vh] bg-cover bg-center text-black shadow-sm items-center p-4" style={{ backgroundImage: "url('./src/images/more/10.png')" }}>
-                <div className='w-[80%] flex justify-between items-center mx-auto '>
+            <div className=" h-[15vh] md:h-[25vh] bg-cover bg-center text-black shadow-sm items-center p-4" style={{ backgroundImage: "url('./src/images/more/10.png')" }}>
+                <div className='w-full md:w-[80%] flex justify-between items-center mx-auto '>
                     <div >
                         <div className='' >
-                            <img className='w-15 h-15' src={first} alt="" />
+                            <img className='w-8 h-8 md:w-15 md:h-15' src={first} alt="" />
                         </div>
                         <div>
-                            <p className='text-xl font-bold pb-1'>
+                            <p className='text-sm md:text-xl font-bold pb-1'>
                                 Awesome Aroma
                             </p>
-                            <p>
+                            <p className="text-xs md:text-base">
                                 You will definitely be a fan of the design <br></br> & aroma of your coffee
                             </p>
                         </div>
@@ -25,13 +25,13 @@ const Tags = () => {
 
                        <div >
                         <div className='' >
-                            <img className='w-15 h-15' src={Second} alt="" />
+                            <img className='w-8 h-8 md:w-15 md:h-15' src={Second} alt="" />
                         </div>
                         <div>
-                            <p className='text-xl font-bold pb-1'>
+                            <p className='text-sm md:text-xl font-bold pb-1'>
                                 High Quality
                             </p>
-                            <p>
+                            <p className="text-xs md:text-base">
                                We served the coffee to you maintaining <br></br> the best quality
                             </p>
                         </div>
@@ -39,13 +39,13 @@ const Tags = () => {
 
                        <div >
                         <div className='' >
-                            <img className='w-15 h-15' src={third} alt="" />
+                            <img className='w-8 h-8 md:w-15 md:h-15' src={third} alt="" />
                         </div>
                         <div>
-                            <p className='text-xl font-bold pb-1'>
+                            <p className='text-sm md:text-xl font-bold pb-1'>
                                Pure Grades
                             </p>
-                            <p>
+                            <p className="text-xs md:text-base">
                                 The coffee is made of the green coffee beans <br></br>which you will love
                             </p>
                         </div>
@@ -53,13 +53,13 @@ const Tags = () => {
 
                         <div >
                         <div className='' >
-                            <img className='w-15 h-15' src={fourth} alt="" />
+                            <img className='w-8 h-8 md:w-15 md:h-15' src={fourth} alt="" />
                         </div>
                         <div>
-                            <p className='text-xl font-bold pb-1'>
+                            <p className='text-sm md:text-xl font-bold pb-1'>
                                Proper Roasting
                             </p>
-                            <p>
+                            <p className="text-xs md:text-base">
                                Your coffee is brewed by first roasting <br></br>the green coffee beans
                             </p>
                         </div>
