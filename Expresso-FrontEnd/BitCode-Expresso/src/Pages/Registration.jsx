@@ -13,8 +13,7 @@ export default function Registration() {
 
     const navigate = useNavigate()
 
-    const { crateEmailUser, update, user } = useContext(AuthContext);
-
+    const { crateEmailUser, update } = useContext(AuthContext);
 
 
 
@@ -30,11 +29,11 @@ export default function Registration() {
 
         const password = event.target.password.value;
 
+        const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
 
 
-
-        if (!/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(password)) {
+        if (!passwordRegex.test(password)) {
             toast.error("password credential not match");
             return;
         }
@@ -42,7 +41,7 @@ export default function Registration() {
 
 
         crateEmailUser(email, password)
-            .then(res => {
+            .then(() => {
 
                 update(name)
                     .then(() => {

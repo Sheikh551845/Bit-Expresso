@@ -29,7 +29,8 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    const ExpressoCollection = client.db("ExpressoDB").collection("Expresso");;
+    const ExpressoCollection = client.db("ExpressoDB").collection("Expresso");
+    const  FamousCoffeCollection = client.db("ExpressoDB").collection("FamousProducts");;
     
 
    app.post('/Json', async(req,res)=>{
@@ -39,12 +40,24 @@ async function run() {
    res.send(insertManyresult)
    })
    
+
+   //AllCoffee
    app.get('/AllCoffees', async(req,res)=>
   {
         const allCoffees = await ExpressoCollection.find().toArray();
         res.send(allCoffees);
 
   })
+  
+
+  //FamousCoffe
+  app.get('/FamousCoffee', async(req,res)=>
+  {
+        const FamousCoffees = await FamousCoffeCollection.find().toArray();
+        res.send(FamousCoffees);
+
+  })
+  
 
 
     await client.db("admin").command({ ping: 1 });

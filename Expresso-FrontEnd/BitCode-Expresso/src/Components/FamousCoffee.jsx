@@ -1,0 +1,48 @@
+import React, { useEffect } from 'react';
+import chobi from '../images/more/1.png';
+import { useState } from 'react';
+import FamousCard from './FamousCard';
+
+
+
+const FamousCoffee = () => {
+    const [FamousCoffee, setFamousCoffee] = useState([])
+
+    useEffect(() => {
+        fetch('http://localhost:5000/FamousCoffee')
+            .then(res => res.json())
+            .then(data => {
+                setFamousCoffee(data);
+                console.log(data);
+            })
+
+    },
+        [])
+
+    return (
+        <div className=" relative h-[100vh] mt-10">
+            {/* Background image */}
+
+            <div className="absolute inset-0 z-10">
+                <img src={chobi} className="max-h-screen w-screen " alt="" />
+            </div>
+
+
+            {/* Content Layer */}
+            <div className=" w-[80%] mx-auto flex flex-col justify-center items-center text-center">
+                <p className="text-[#6f4e37]">--- Sip & Savor ---</p>
+                <p className="text-2xl font-bold text-[#6f4e37]">Our Popular Products</p>
+
+                <div className='grid grid-col-1 md:grid-cols-2 w-full gap-2 mt-2 p-3'>
+                    {FamousCoffee.map((Coffee, index) => (
+                        <FamousCard Coffee={Coffee} key={index} />
+                    ))}
+                </div>
+            </div>
+
+        </div>
+
+    );
+};
+
+export default FamousCoffee;

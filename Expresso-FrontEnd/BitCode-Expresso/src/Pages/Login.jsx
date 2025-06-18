@@ -34,7 +34,7 @@ export default function Login() {
 
         // login
         login(email, password)
-            .then((res) => {
+            .then(() => {
                 toast.success('User logged in successfully');
                 navigate('/')
             })
