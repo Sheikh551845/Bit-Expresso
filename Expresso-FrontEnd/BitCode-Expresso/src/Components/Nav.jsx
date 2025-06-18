@@ -5,8 +5,8 @@ import logo from '../images/more/logo1.png';
 
 const Nav = () => {
     return (
-        <div>
-            <div className="navbar bg-[#6f4e37] text-white shadow-sm flex justify-between items-center">
+        <div className=' '>
+            <div className="navbar bg-[#6f4e37] text-white shadow-sm flex justify-between items-center fixed z-10 mb-[64px] mt-0">
   <div className="flex justify-center items-center gap-2">
     <img className='w-10 h-10 bg-white rounded-full' src={logo} alt="" />
     <p className='text-xl font-bold'>Bit Expresso</p>
