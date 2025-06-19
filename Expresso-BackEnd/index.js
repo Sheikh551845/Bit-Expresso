@@ -30,8 +30,51 @@ async function run() {
     await client.connect();
 
     const ExpressoCollection = client.db("ExpressoDB").collection("Expresso");
-    const  FamousCoffeCollection = client.db("ExpressoDB").collection("FamousProducts");;
+    const  FamousCoffeCollection = client.db("ExpressoDB").collection("FamousProducts");
+     const  Comment = client.db("ExpressoDB").collection("Comment");
+      const  FirstReplay = client.db("ExpressoDB").collection("FirstReplay");
+       const  SencondReplay = client.db("ExpressoDB").collection("SecondReplay");
+        const  LikedData = client.db("ExpressoDB").collection("Liked");
     
+
+
+  //...............................................................................................
+   //all Post are from here
+   //liked post
+    app.post('/Like', async(req,res)=>{
+   const LikeResponse = await LikedData.insertMany(req.body);
+ 
+   console.log(`${LikeResponse.insertedCount} documents were inserted.`);
+   res.send(LikeResponse)
+   })
+
+   //Comment Post
+   app.post('/Comment', async(req,res)=>{
+   const CommentResponse = await Comment.insertMany(req.body);
+ 
+   console.log(`${CommentResponse.insertedCount} documents were inserted.`);
+   res.send(CommentResponse)
+   })
+
+   //Firs Replay Post
+
+   app.post('/Comment', async(req,res)=>{
+   const FirstReplayRespose = await FirstReplay.insertMany(req.body);
+ 
+   console.log(`${FirstReplayRespose.insertedCount} documents were inserted.`);
+   res.send(FirstReplayRespose)
+   })
+
+   //Second Replay Post
+
+   app.post('/Comment', async(req,res)=>{
+   const SencondReplayResponse = await SencondReplay.insertMany(req.body);
+ 
+   console.log(`${SencondReplayResponse.insertedCount} documents were inserted.`);
+   res.send(SencondReplayResponse)
+   })
+
+   //All coffee oost
 
    app.post('/Json', async(req,res)=>{
    const insertManyresult = await ExpressoCollection.insertMany(req.body);
@@ -39,7 +82,36 @@ async function run() {
    console.log(`${insertManyresult.insertedCount} documents were inserted.`);
    res.send(insertManyresult)
    })
+
+
+
+
+
+// .........................................................................................................
    
+
+   //All get are from here
+
+   //All Liked data
+   app.get('/Like', async(req,res)=>
+  {
+        const AllLikedData = await LikedData.find().toArray();
+        res.send(AllLikedData);
+
+  })
+
+  //Users Like data
+app.get('/Like/:uid', async(req,res)=>
+  {
+        const userid = req.params.uid;
+        const query = {uid: userid}
+        console.log(query)
+        const userLiked = await FamousCoffeCollection.find(query).toArray();;
+        
+        res.send(userLiked)
+  })
+
+
 
    //AllCoffee
    app.get('/AllCoffees', async(req,res)=>
@@ -66,11 +138,34 @@ async function run() {
         console.log(query)
         const coffee = await FamousCoffeCollection.findOne(query);
         
-        res.send(coffee);
-
+        res.send(coffee)
   })
-  
 
+
+  //Comment get
+  app.get('/Comment', async(req,res)=>
+  {
+    const AllComments = await Comment.find().toArray();
+    res.send(AllComments)
+  })
+
+  //1st replay get
+
+ app.get('/FirstReplay', async(req,res)=>
+  {
+    const AllFirstReplies = await FirstReplay.find().toArray();
+    res.send(AllFirstReplies)
+  })
+
+  //2nd replay get
+  
+ app.get('/SencondReplay', async(req,res)=>
+  {
+    const AllSecondReplies = await SencondReplay.find().toArray();
+    res.send(AllSecondReplies)
+  })
+
+  //....................................................................
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
