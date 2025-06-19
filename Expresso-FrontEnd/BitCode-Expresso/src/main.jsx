@@ -15,6 +15,9 @@ import AllProducts from './Pages/AllProducts.jsx';
 import AuthProvider from './AuthProvider.jsx';
 import Login from './Pages/Login.jsx';
 import Registration from './Pages/Registration.jsx';
+import ProductDetails from './Pages/ProductDetails.jsx';
+import Test from './Pages/test.jsx';
+
 
 
 
@@ -31,6 +34,13 @@ const router = createBrowserRouter([
           element: <Home></Home>
         },
         {
+          path: "/ProductDetails/:id",
+          element: <ProductDetails></ProductDetails>,
+          loader: async ({ params }) => {
+            return fetch(`http://localhost:5000/FamousOne/${params.id}`);
+          },
+        },
+        {
           path: "/About",
           element: <About></About>
         },
@@ -39,13 +49,15 @@ const router = createBrowserRouter([
           element: <AllProducts></AllProducts>
         },
         {
-          path:"/Login",
-          element:<Login></Login>
+          path: "/Login",
+          element: <Login></Login>
         },
         {
-          path:"/Registration",
+          path: "/Registration",
           element: <Registration></Registration>
+
         }
+
       ]
 
   },

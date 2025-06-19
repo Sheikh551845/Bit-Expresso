@@ -1,9 +1,12 @@
 import React from 'react';
 import { FaComment, FaHeart, FaRegComment, FaRegHeart } from 'react-icons/fa';
 import { TbListDetails } from 'react-icons/tb';
+import { Link, Navigate, NavLink } from 'react-router-dom';
 
 const FamousCard = (data) => {
     const { Coffee } = data
+
+   
 
 
 
@@ -26,17 +29,27 @@ const FamousCard = (data) => {
                 </div>
                 <div className='flex justify-around items-center flex-col gap-3'>
                     <button className="bg-red-500 rounded-xl w-10 h-8 text-white flex items-center justify-center">
-                       <FaHeart />
+                        <FaHeart />
                     </button>
 
-
-                    <button className="bg-[#D2B48C] rounded-xl w-10 h-8 text-white flex items-center justify-center">
+                    <Link
+                       
+                        to={`/ProductDetails/${Coffee._id}`}
+                        className="bg-[#D2B48C] rounded-xl w-10 h-8 text-white flex items-center justify-center"
+                    >
                         <TbListDetails />
-                    </button>
+                    </Link>
 
-                    <button className="bg-black rounded-xl w-10 h-8 text-white flex items-center justify-center">
-                        <FaComment />
-                    </button>
+                    <Link
+                        
+                        to={`/ProductDetails/${Coffee._id}`}
+                        className="bg-black rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer"
+                    >
+                       <FaComment />
+                    </Link>
+
+                   
+
 
 
                 </div>
