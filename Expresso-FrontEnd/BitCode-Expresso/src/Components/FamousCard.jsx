@@ -34,7 +34,7 @@ const FamousCard = (data) => {
 
                     <Link
                        
-                        to={`/ProductDetails/${Coffee._id}`}
+                        to={`/FamousDetails/${Coffee._id}`}
                         className="bg-[#D2B48C] rounded-xl w-10 h-8 text-white flex items-center justify-center"
                     >
                         <TbListDetails />
@@ -42,7 +42,7 @@ const FamousCard = (data) => {
 
                     <Link
                         
-                        to={`/ProductDetails/${Coffee._id}`}
+                        to={`/FamousDetails/${Coffee._id}`}
                         className="bg-black rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer"
                     >
                        <FaComment />

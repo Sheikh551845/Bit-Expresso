@@ -17,6 +17,7 @@ import Login from './Pages/Login.jsx';
 import Registration from './Pages/Registration.jsx';
 import ProductDetails from './Pages/ProductDetails.jsx';
 import Test from './Pages/test.jsx';
+import FamousDetails from './Pages/FamousDetail.jsx';
 
 
 
@@ -34,12 +35,21 @@ const router = createBrowserRouter([
           element: <Home></Home>
         },
         {
-          path: "/ProductDetails/:id",
-          element: <ProductDetails></ProductDetails>,
+          path: "/FamousDetails/:id",
+          element: <FamousDetails></FamousDetails>,
           loader: async ({ params }) => {
             return fetch(`http://localhost:5000/FamousOne/${params.id}`);
           },
         },
+
+         {
+          path: "/GeneralDetails/:id",
+          element: <FamousDetails></FamousDetails>,
+          loader: async ({ params }) => {
+            return fetch(`http://localhost:5000/General/${params.id}`);
+          },
+        },
+
         {
           path: "/About",
           element: <About></About>

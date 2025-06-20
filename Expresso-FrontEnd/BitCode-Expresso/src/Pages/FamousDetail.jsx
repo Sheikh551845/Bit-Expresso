@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useContext, useEffect, useState } from 'react';
 import { FaArrowLeft, FaComment, FaHeart } from 'react-icons/fa';
 import { GoArrowLeft } from 'react-icons/go';
 import { Navigate, useLoaderData, useNavigate } from 'react-router-dom';
@@ -9,22 +9,33 @@ import { ClockLoader } from 'react-spinners';
 
 
 
-const ProductDetails = () => {
+
+
+
+const FamousDetails = () => {
     const navigate = useNavigate();
     const data = useLoaderData()
     const [submitted, setSubmitted] = useState(false)
     const { user } = useContext(AuthContext)
     const [commentCount, setCommentCount] = useState(data.comments)
     const [likeCount, setLikeCount] = useState(data.likes)
+    const [comments, setcomments] = useState([])
 
 
-//     useEffect(()=>{
 
-//          setCommentCount(data.comments +1)
-//     },[])
-// //   
 
-// console.log(commentCount)
+    useEffect(() => {
+
+        fetch(`http://localhost:5000/Comment/${data._id}`)
+            .then(res => res.json())
+            .then(data => {
+                setcomments(data)
+            })
+    }, [])
+    //   
+
+
+
 
 
     const handleComment = (event) => {
@@ -51,34 +62,32 @@ const ProductDetails = () => {
             body: JSON.stringify(commentDetails)
         })
             .then(res => {
-                
-                if (res.status == 200) {
-                       setCommentCount( data.comments + 1)
-                    toast.success('Comment added')
-                 
-                  const increase = data.comments + 1;
 
-                    fetch(`http://localhost:5000/CommentCount/${data._id}`, {
-                            method: 'PATCH',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({"comments": increase}) 
-                        })
-                        .then(res=>
-                           {
+                if (res.status == 200) {
+                    setCommentCount(data.comments + 1)
+                    toast.success('Comment added')
+
+                    const increase = data.comments + 1;
+
+                    fetch(`http://localhost:5000/FamousCommentCount/${data._id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ comments: increase })
+                    })
+                        .then(res => {
                             console.log(res)
 
-                            if(res.status==200)
-                            {
-                              toast.success("Comment increase by 1")
+                            if (res.status == 200) {
+                                toast.success("Comment increase by 1")
                             }
-                           }
+                        }
                         )
 
-                    
-                          
-                    
+
+
+
                 }
             })
 
@@ -152,7 +161,10 @@ const ProductDetails = () => {
                                 </div>
                             </div>
                             <div className=''>
-                                <Comments></Comments>
+                              
+                                    <Comments comments={comments} />
+                              
+
                             </div>
                         </div>
                         : <div className='flex justify-center items-center h-[50vh]'><ClockLoader color="#6f4e37"
@@ -201,6 +213,6 @@ const ProductDetails = () => {
     );
 };
 
-export default ProductDetails;
+export default FamousDetails;
 
 

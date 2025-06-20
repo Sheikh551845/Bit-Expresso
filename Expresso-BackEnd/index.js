@@ -42,7 +42,7 @@ async function run() {
    //all Post are from here
    //liked post
     app.post('/Like', async(req,res)=>{
-   const LikeResponse = await LikedData.insertMany(req.body);
+   const LikeResponse = await LikedData.insertOne(req.body);
  
    console.log(`${LikeResponse.insertedCount} documents were inserted.`);
    res.send(LikeResponse)
@@ -50,16 +50,17 @@ async function run() {
 
    //Comment Post
    app.post('/Comment', async(req,res)=>{
-   const CommentResponse = await Comment.insertMany(req.body);
+   const CommentResponse = await Comment.insertOne(req.body);
  
    console.log(`${CommentResponse.insertedCount} documents were inserted.`);
    res.send(CommentResponse)
+
    })
 
    //Firs Replay Post
 
-   app.post('/Comment', async(req,res)=>{
-   const FirstReplayRespose = await FirstReplay.insertMany(req.body);
+   app.post('/FirstReplay', async(req,res)=>{
+   const FirstReplayRespose = await FirstReplay.insertOne(req.body);
  
    console.log(`${FirstReplayRespose.insertedCount} documents were inserted.`);
    res.send(FirstReplayRespose)
@@ -67,8 +68,8 @@ async function run() {
 
    //Second Replay Post
 
-   app.post('/Comment', async(req,res)=>{
-   const SencondReplayResponse = await SencondReplay.insertMany(req.body);
+   app.post('/SecondReplay', async(req,res)=>{
+   const SencondReplayResponse = await SencondReplay.insertOne(req.body);
  
    console.log(`${SencondReplayResponse.insertedCount} documents were inserted.`);
    res.send(SencondReplayResponse)
@@ -82,6 +83,81 @@ async function run() {
    console.log(`${insertManyresult.insertedCount} documents were inserted.`);
    res.send(insertManyresult)
    })
+
+
+//..........................................................................................................
+
+//All updates are here
+//Famous product Comments count update.
+app.patch('/FamousCommentCount/:id', async (req, res) => {
+   const id = req.params.id;
+  const { comments } = req.body;
+  console.log(comments)
+
+  try {
+    const result = await FamousCoffeCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { comments: comments } } 
+    );
+
+    res.send(result);
+  } catch (err) {
+    res.status(500).send({ error: 'Failed to update likes' });
+  }
+});
+
+//Comments count update.
+app.patch('/CommentCount/:id', async (req, res) => {
+   const id = req.params.id;
+  const { comments } = req.body;
+  console.log(req.body)
+
+  try {
+    const result = await ExpressoCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { comments: comments } } 
+    );
+
+    res.send(result);
+  } catch (err) {
+    res.status(500).send({ error: 'Failed to update likes' });
+  }
+});
+
+//Famous products Likes count update
+app.patch('/FamousLikeCount/:id', async (req, res) => {
+   const id = req.params.id;
+  const { likes } = req.body;
+
+  try {
+    const result = await FamousCoffeCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { likes: likes } } 
+    );
+
+    res.send(result);
+  } catch (err) {
+    res.status(500).send({ error: 'Failed to update likes' });
+  }
+});
+
+//Likes count update
+app.patch('/LikeCount/:id', async (req, res) => {
+   const id = req.params.id;
+  const { likes } = req.body;
+
+  try {
+    const result = await ExpressoCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { likes: likes } } 
+    );
+
+    res.send(result);
+  } catch (err) {
+    res.status(500).send({ error: 'Failed to update likes' });
+  }
+});
+
 
 
 
@@ -105,7 +181,7 @@ app.get('/Like/:uid', async(req,res)=>
   {
         const userid = req.params.uid;
         const query = {uid: userid}
-        console.log(query)
+        
         const userLiked = await FamousCoffeCollection.find(query).toArray();;
         
         res.send(userLiked)
@@ -135,20 +211,35 @@ app.get('/Like/:uid', async(req,res)=>
   {
         const id = req.params.id;
         const query = {_id: new ObjectId(id)}
-        console.log(query)
+        
         const coffee = await FamousCoffeCollection.findOne(query);
         
         res.send(coffee)
   })
 
 
-  //Comment get
-  app.get('/Comment', async(req,res)=>
+ //GeneralCoffe by Id
+  app.get('/GeneralOne/:id', async(req,res)=>
   {
-    const AllComments = await Comment.find().toArray();
-    res.send(AllComments)
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)}
+    
+        const coffee = await ExpressoCollection.findOne(query);
+        
+        res.send(coffee)
   })
 
+
+  //Comment by product get
+  app.get('/comment/:id', async(req,res)=>
+  {
+        const id = req.params.id;
+        const query = {pid: id}
+    
+        const coffee = await Comment.find(query).toArray();
+        
+        res.send(coffee)
+  })
   //1st replay get
 
  app.get('/FirstReplay', async(req,res)=>
