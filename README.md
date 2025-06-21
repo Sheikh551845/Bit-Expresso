@@ -4,11 +4,6 @@ Live Demo: [https://bitcode-expresso.web.app/](https://bitcode-expresso.web.app/
 
 ---
 
-## 🚧 Submission Note
-
-We encourage submission even if the project is not 100% complete. Due to time constraints and balancing other responsibilities, some optimizations and edge cases were not fully implemented. However, the core functionality and UI are in place to demonstrate the project's capability.
-
----
 
 ## 💡 Thinking Process
 
