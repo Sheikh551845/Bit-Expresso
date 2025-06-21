@@ -72,7 +72,8 @@ const Comments = ({ comments, Prodcutinfo }) => {
 
     return (
         <div>
-            <p className='text-center mb-4 text-3xl text-[#6f4e37] font-bold'>Comments </p>
+            {Allcomments.length>0? <p className='text-center mb-4 text-3xl text-[#6f4e37] font-bold'>Comments </p>: ""}
+            
             <div className=' overflow-y-auto'>
                 {Allcomments.map((comment) => (
                     <Comment key={comment._id} comment={comment} onDelete={handleDetele} />

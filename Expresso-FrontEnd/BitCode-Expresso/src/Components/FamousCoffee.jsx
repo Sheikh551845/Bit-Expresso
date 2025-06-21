@@ -13,7 +13,7 @@ const FamousCoffee = () => {
         fetch('http://localhost:5000/AllCoffees')
             .then(res => res.json())
             .then(data => {
-                setFamousCoffee(data.slice(0,7));
+                setFamousCoffee(data.slice(0,6));
               
             })
 
@@ -22,14 +22,14 @@ const FamousCoffee = () => {
 
     return (
         <div className=" relative  md:h-[100vh] mt-10 ">
-            {/* Background image */}
+          
 
             <div className="hidden md:block md:absolute md:inset-0 md:z-7">
                 <img src={chobi} className="max-h-screen w-screen " alt="" />
             </div>
 
 
-            {/* Content Layer */}
+      
             <div className='absolute z-8 md:inset-0 w-full'>
                 <div className=" w-[80%] mx-auto flex flex-col justify-center items-center text-center ">
                 <p className="text-[#6f4e37]">--- Sip & Savor ---</p>

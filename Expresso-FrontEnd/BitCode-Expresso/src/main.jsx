@@ -9,16 +9,15 @@ import {
 
 import Home from './Pages/Home.jsx';
 import ErrorPage from './Pages/Error.jsx';
-import { ToastContainer } from 'react-toastify';
+
 import About from './Pages/About.jsx';
-import AllProducts from './Pages/AllProducts.jsx';
+
 import AuthProvider from './AuthProvider.jsx';
 import Login from './Pages/Login.jsx';
 import Registration from './Pages/Registration.jsx';
 
-import Test from './Pages/test.jsx';
 import FamousDetails from './Pages/FamousDetail.jsx';
-import PrivateRoute from './Pages/PrivatePage.jsx';
+import AllProducts from './Pages/AllProducts.jsx';
 import PrivatePage from './Pages/PrivatePage.jsx';
 
 
@@ -50,7 +49,7 @@ const router = createBrowserRouter([
         },
         {
           path: "/AllProducts",
-          element: <AllProducts></AllProducts>
+          element:<AllProducts></AllProducts>
         },
         {
           path: "/Login",

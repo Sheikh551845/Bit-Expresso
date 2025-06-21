@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../AuthProvider';
 
@@ -10,10 +10,25 @@ import { AuthContext } from '../AuthProvider';
 export default function Login() {
 
 
-    const { login } = useContext(AuthContext)
+    const { login, user } = useContext(AuthContext)
+
+    const [CheckUser, setCheckUser]=useState({})
+      const navigate = useNavigate();
+      const location=useLocation()
+
+ useEffect(()=>{
+    setCheckUser(user)
+ },[user])
+
+ useEffect(()=>{ if(CheckUser){
+    navigate(location.state)
+ }
+ },[CheckUser,navigate,location])
 
 
-    const navigate = useNavigate();
+
+
+  
 
     const handleSubmit = (event) => {
         event.preventDefault();
