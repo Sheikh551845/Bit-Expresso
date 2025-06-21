@@ -6,9 +6,7 @@ import { Link, Navigate, NavLink } from 'react-router-dom';
 const FamousCard = (data) => {
     const { Coffee } = data
 
-   
-
-
+ 
 
     return (
         <div className=''>

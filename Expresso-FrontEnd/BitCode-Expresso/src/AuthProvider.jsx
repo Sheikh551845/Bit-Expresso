@@ -21,6 +21,49 @@ export default function AuthProvider({children}) {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   const [CartData, setCartData] = useState([])
+
+  const [allComment, setAllComments]=useState([])
+  const [allFirst, setAllFirst]=useState([])
+  const [allSecond, setAllSecond]=useState([])
+
+
+
+
+  useEffect(()=>{
+   fetch(`http://localhost:5000/AllComment`)
+            .then(res => res.json())
+            .then(data => {
+                setAllComments(data)
+
+            })
+
+
+  },
+  [])
+
+  useEffect(()=>{
+   fetch(`http://localhost:5000/AllFirst`)
+            .then(res => res.json())
+            .then(data => {
+                setAllFirst(data)
+
+            })
+
+
+  },
+  [])
+
+    useEffect(()=>{
+   fetch(`http://localhost:5000/AllSecond`)
+            .then(res => res.json())
+            .then(data => {
+                setAllSecond(data)
+
+            })
+
+
+  },
+  [])
  
 
 
@@ -77,10 +120,10 @@ const update=(name)=>
     login,
     user,
     logout,
-    loading,
     update,
-    CartData,
-    setCartData,
+    allComment,
+    allFirst,
+    allSecond
    
   }
  

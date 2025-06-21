@@ -10,10 +10,10 @@ const FamousCoffee = () => {
     const [FamousCoffee, setFamousCoffee] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:5000/FamousCoffee')
+        fetch('http://localhost:5000/AllCoffees')
             .then(res => res.json())
             .then(data => {
-                setFamousCoffee(data);
+                setFamousCoffee(data.slice(0,7));
               
             })
 

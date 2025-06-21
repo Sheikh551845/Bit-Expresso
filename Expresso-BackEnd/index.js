@@ -30,23 +30,16 @@ async function run() {
     await client.connect();
 
     const ExpressoCollection = client.db("ExpressoDB").collection("Expresso");
-    const  FamousCoffeCollection = client.db("ExpressoDB").collection("FamousProducts");
+  
      const  Comment = client.db("ExpressoDB").collection("Comment");
       const  FirstReplay = client.db("ExpressoDB").collection("FirstReplay");
-       const  SencondReplay = client.db("ExpressoDB").collection("SecondReplay");
-        const  LikedData = client.db("ExpressoDB").collection("Liked");
+       const  SecondReplay = client.db("ExpressoDB").collection("SecondReplay");
+        const  LikedInfo = client.db("ExpressoDB").collection("LikedInfo");
     
 
 
   //...............................................................................................
    //all Post are from here
-   //liked post
-    app.post('/Like', async(req,res)=>{
-   const LikeResponse = await LikedData.insertOne(req.body);
- 
-   console.log(`${LikeResponse.insertedCount} documents were inserted.`);
-   res.send(LikeResponse)
-   })
 
    //Comment Post
    app.post('/Comment', async(req,res)=>{
@@ -71,35 +64,57 @@ async function run() {
    //Second Replay Post
 
    app.post('/SecondReplay', async(req,res)=>{
-   const SencondReplayResponse = await SencondReplay.insertOne(req.body);
+   const SecondReplayResponse = await SecondReplay.insertOne(req.body);
  
-   console.log(`${SencondReplayResponse.insertedCount} documents were inserted.`);
-   res.send(SencondReplayResponse)
+   console.log(`${SecondReplayResponse.insertedCount} documents were inserted.`);
+   res.send(SecondReplayResponse)
    })
 
-   //All coffee oost
 
-   app.post('/Json', async(req,res)=>{
-   const insertManyresult = await ExpressoCollection.insertMany(req.body);
- 
-   console.log(`${insertManyresult.insertedCount} documents were inserted.`);
-   res.send(insertManyresult)
-   })
+
+
+   //Like Post
+
+   app.post('/like', async (req, res) => {
+    const { pid, uid } = req.body;
+
+    if (!pid || !uid) {
+        return res.status(400).send({ error: 'Missing pid or uid' });
+    }
+
+    const alreadyLiked = await LikedInfo.findOne({ pid, uid });
+    if (alreadyLiked) {
+        return res.status(409).send({ message: 'Already liked' });
+    }
+
+    await LikedInfo.insertOne({ pid, uid });
+
+    // Optional: increment like count in products/famouscoffee collection
+    await ExpressoCollection.updateOne(
+        { _id: pid },
+        { $inc: { likes: 1 } }
+    );
+
+    res.status(200).send({ message: 'Liked successfully' });
+});
+
+
 
 
 //..........................................................................................................
 
 //All updates are here
-//Famous product Comments count update.
-app.patch('/FamousCommentCount/:id', async (req, res) => {
+
+//Comment Update
+app.patch('/CommentUpdate/:id', async (req, res) => {
    const id = req.params.id;
-  const { comments } = req.body;
+  const  commentdata  = req.body;
  
 
   try {
-    const result = await FamousCoffeCollection.updateOne(
+    const result = await Comment.updateOne(
       { _id: new ObjectId(id) },
-      { $set: { comments: comments } } 
+      { $set: { comment: commentdata.comment } } 
     );
 
     res.send(result);
@@ -107,6 +122,49 @@ app.patch('/FamousCommentCount/:id', async (req, res) => {
     res.status(500).send({ error: 'Failed to update likes' });
   }
 });
+
+
+//First Replay Update
+
+app.patch('/FirstUpdate/:id', async (req, res) => {
+   const id = req.params.id;
+  const replayData  = req.body;
+ 
+
+  try {
+    const result = await FirstReplay.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { replay: replayData.replay } } 
+    );
+
+    res.send(result);
+  } catch (err) {
+    res.status(500).send({ error: 'Failed to update likes' });
+  }
+});
+
+
+//Second Replay Update
+
+app.patch('/SecondUpdate/:id', async (req, res) => {
+   const id = req.params.id;
+  const  replayData  = req.body;
+
+
+  try {
+    const result = await SecondReplay.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { replay: replayData.replay } } 
+    );
+
+    res.send(result);
+  } catch (err) {
+    res.status(500).send({ error: 'Failed to update likes' });
+  }
+});
+
+
+
 
 //Comments count update.
 app.patch('/CommentCount/:id', async (req, res) => {
@@ -126,39 +184,25 @@ app.patch('/CommentCount/:id', async (req, res) => {
   }
 });
 
-//Famous products Likes count update
-app.patch('/FamousLikeCount/:id', async (req, res) => {
-   const id = req.params.id;
-  const { likes } = req.body;
-
-  try {
-    const result = await FamousCoffeCollection.updateOne(
-      { _id: new ObjectId(id) },
-      { $set: { likes: likes } } 
-    );
-
-    res.send(result);
-  } catch (err) {
-    res.status(500).send({ error: 'Failed to update likes' });
-  }
-});
 
 //Likes count update
+
 app.patch('/LikeCount/:id', async (req, res) => {
-   const id = req.params.id;
-  const { likes } = req.body;
+    const id = req.params.id;
+    const { likes } = req.body;
 
-  try {
-    const result = await ExpressoCollection.updateOne(
-      { _id: new ObjectId(id) },
-      { $set: { likes: likes } } 
-    );
+    try {
+        const result = await ExpressoCollection.updateOne(
+            { _id: new ObjectId(id) },
+            { $set: { likes: likes } }
+        );
 
-    res.send(result);
-  } catch (err) {
-    res.status(500).send({ error: 'Failed to update likes' });
-  }
+        res.status(200).send(result);
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to update like count' });
+    }
 });
+
 
 
 
@@ -170,27 +214,6 @@ app.patch('/LikeCount/:id', async (req, res) => {
 
    //All get are from here
 
-   //All Liked data
-   app.get('/Like', async(req,res)=>
-  {
-        const AllLikedData = await LikedData.find().toArray();
-        res.send(AllLikedData);
-
-  })
-
-  //Users Like data
-app.get('/Like/:uid', async(req,res)=>
-  {
-        const userid = req.params.uid;
-        const query = {uid: userid}
-        
-        const userLiked = await FamousCoffeCollection.find(query).toArray();;
-        
-        res.send(userLiked)
-  })
-
-
-
    //AllCoffee
    app.get('/AllCoffees', async(req,res)=>
   {
@@ -200,28 +223,11 @@ app.get('/Like/:uid', async(req,res)=>
   })
   
 
-  //FamousCoffe
-  app.get('/FamousCoffee', async(req,res)=>
-  {
-        const FamousCoffees = await FamousCoffeCollection.find().toArray();
-        res.send(FamousCoffees);
 
-  })
-
-   //FamousCoffe by Id
-  app.get('/FamousOne/:id', async(req,res)=>
-  {
-        const id = req.params.id;
-        const query = {_id: new ObjectId(id)}
-        
-        const coffee = await FamousCoffeCollection.findOne(query);
-        
-        res.send(coffee)
-  })
-
+   
 
  //GeneralCoffe by Id
-  app.get('/GeneralOne/:id', async(req,res)=>
+  app.get('/OneCoffee/:id', async(req,res)=>
   {
         const id = req.params.id;
         const query = {_id: new ObjectId(id)}
@@ -231,6 +237,31 @@ app.get('/Like/:uid', async(req,res)=>
         res.send(coffee)
   })
 
+  //All Comments 
+    app.get('/AllComment', async(req,res)=>
+  {
+        const AllLikedData = await Comment.find().toArray();
+        res.send(AllLikedData);
+
+  })
+
+  //All Fist Replay
+
+    app.get('/AllFirst', async(req,res)=>
+  {
+        const AllLikedData = await FirstReplay.find().toArray();
+        res.send(AllLikedData);
+
+  })
+
+  //All Second Replay
+
+    app.get('/AllSecond', async(req,res)=>
+  {
+        const AllLikedData = await SecondReplay.find().toArray();
+        res.send(AllLikedData);
+
+  })
 
   //Comment by product id get
   app.get('/comment/:id', async(req,res)=>
@@ -273,12 +304,53 @@ app.get('/Like/:uid', async(req,res)=>
         const id = req.params.id;
         const query = {rid: id}
     
-        const replies = await SencondReplay.find(query).toArray();
+        const replies = await SecondReplay.find(query).toArray();
       
         res.send(replies)
   })
 
+  //Like check
+  app.get('/hasLiked/:pid/:uid', async (req, res) => {
+    const { pid, uid } = req.params;
+
+    const liked = await LikedInfo.findOne({ pid, uid });
+    res.send({ hasLiked: !!liked });
+});
+
   //....................................................................
+
+  //All delete ares here
+
+
+  // Delete comment by ID
+app.delete('/DeteleComment/:id', async (req, res) => {
+  console.log("inside delete");
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) }; // Use ObjectId for MongoDB _id
+
+  const deleteRes = await Comment.deleteOne(query);
+  res.send(deleteRes);
+});
+
+// Delete First Replay by ID
+app.delete('/DeleteFirst/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+
+  const deleteRes = await FirstReplay.deleteOne(query);
+  res.send(deleteRes);
+});
+
+// Delete Second Replay by ID
+app.delete('/DeteleSecond/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+
+  const deleteRes = await SecondReplay.deleteOne(query);
+  res.send(deleteRes);
+});
+
+  // ...............................................................................
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

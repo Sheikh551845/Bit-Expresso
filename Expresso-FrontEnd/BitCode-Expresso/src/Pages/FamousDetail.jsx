@@ -1,7 +1,5 @@
-
-
 import React, { useContext, useEffect, useState } from 'react';
-import { FaArrowLeft, FaComment, FaHeart } from 'react-icons/fa';
+import { FaComment, FaHeart } from 'react-icons/fa';
 import { GoArrowLeft } from 'react-icons/go';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -12,17 +10,33 @@ import { ClockLoader } from 'react-spinners';
 const FamousDetails = () => {
     const navigate = useNavigate();
     const data = useLoaderData();
-    const [submitted, setSubmitted] = useState(false);
     const { user } = useContext(AuthContext);
+
+    const [submitted, setSubmitted] = useState(false);
     const [commentCount, setCommentCount] = useState(data.comments);
     const [likeCount, setLikeCount] = useState(data.likes);
-    const [comments, setcomments] = useState([]);
+    const [hasLiked, setHasLiked] = useState(false);
+    const [comments, setComments] = useState([]);
+
+
+
+
+
+    useEffect(() => {
+        if (user?.uid) {
+            fetch(`http://localhost:5000/hasLiked/${data._id}/${user.uid}`)
+                .then(res => res.json())
+                .then(data => {
+                    setHasLiked(data.hasLiked); // backend should return { hasLiked: true/false }
+                });
+        }
+    }, [user, data._id]);
 
     useEffect(() => {
         fetch(`http://localhost:5000/Comment/${data._id}`)
             .then(res => res.json())
             .then(data => {
-                setcomments(data);
+                setComments(data);
             });
     }, [data._id]);
 
@@ -35,10 +49,10 @@ const FamousDetails = () => {
         }
 
         const commentDetails = {
-            uid: user.uid,
+            uid: user?.uid,
             comment,
             pid: data._id,
-            auther: user.displayName
+            auther: user?.displayName,
         };
 
         setSubmitted(true);
@@ -52,11 +66,10 @@ const FamousDetails = () => {
                     setCommentCount(prev => prev + 1);
                     toast.success('Comment added');
 
-                    const increase = commentCount + 1;
-                    fetch(`http://localhost:5000/FamousCommentCount/${data._id}`, {
+                    fetch(`http://localhost:5000/CommentCount/${data._id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ comments: increase })
+                        body: JSON.stringify({ comments: commentCount + 1 })
                     })
                         .then(res => {
                             if (res.status === 200) toast.success('Comment count updated');
@@ -64,6 +77,51 @@ const FamousDetails = () => {
                 }
             });
     };
+
+    const handleLike = () => {
+    if (hasLiked) return toast.warning("You already liked this!");
+
+    const newLikeCount = likeCount + 1;
+    setLikeCount(newLikeCount);
+    setHasLiked(true);
+
+    const likeDetails = {
+        uid: user.uid,
+        pid: data._id
+    };
+
+    // First: Add like entry to "Liked info" collection
+    fetch(`http://localhost:5000/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(likeDetails)
+    })
+        .then(res => {
+            if (res.status === 200) {
+                toast.success('Liked!');
+
+                // ✅ Then: Update like count in product main data
+                fetch(`http://localhost:5000/LikeCount/${data._id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ likes: newLikeCount })
+                })
+                    .then(res => {
+                        if (res.status === 200) {
+                            toast.success('Like count updated');
+                        } else {
+                            toast.error('Failed to update like count');
+                        }
+                    });
+
+            } else {
+                toast.error('Failed to like');
+                setLikeCount(prev => prev - 1);
+                setHasLiked(false);
+            }
+        });
+};
+
 
     return (
         <div className="min-h-screen bg-cover bg-center mt-4" style={{ backgroundImage: "url('../images/more/11.png')" }}>
@@ -93,24 +151,23 @@ const FamousDetails = () => {
                             </div>
 
                             <div className='flex justify-around items-center flex-col gap-5 relative'>
-                                    <p className='bg-red-500 rounded-xl w-5 h-5 text-white text-center absolute z-2 top-4 left-6'>{likeCount}</p>
-                                    <p className='bg-black rounded-xl w-5 h-5 text-white text-center absolute z-2 bottom-[-4px] left-6'>{commentCount}</p>
-                                    <button className="bg-red-500 rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer ">
-                                        <FaHeart />
-                                    </button>
+                                <p className='bg-red-500 rounded-xl w-5 h-5 text-white text-center absolute z-2 top-4 left-6'>{likeCount}</p>
+                                <p className='bg-black rounded-xl w-5 h-5 text-white text-center absolute z-2 bottom-[-4px] left-6'>{commentCount}</p>
+                                <button onClick={handleLike} className="bg-red-500 rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer">
+                                    <FaHeart />
+                                </button>
 
-                                    <button
-                                        onClick={() => document.getElementById('my_modal_4').showModal()}
-
-                                        className="bg-black rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer "
-                                    >
-                                        <FaComment />
-                                    </button>
-                                </div>
+                                <button
+                                    onClick={() => document.getElementById('my_modal_4').showModal()}
+                                    className="bg-black rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer"
+                                >
+                                    <FaComment />
+                                </button>
+                            </div>
                         </div>
 
                         <div className="overflow-y-auto max-h-[400px]">
-                            <Comments comments={comments} />
+                            <Comments comments={comments} Prodcutinfo={data} />
                         </div>
                     </div>
                 ) : (
