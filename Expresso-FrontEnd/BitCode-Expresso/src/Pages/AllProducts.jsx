@@ -8,7 +8,7 @@ const AllProducts = () => {
     const [sortOption, setSortOption] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:5000/AllCoffees')
+        fetch('https://expresso-back-end.vercel.app/AllCoffees')
             .then(res => res.json())
             .then(data => {
                 setProducts(data);

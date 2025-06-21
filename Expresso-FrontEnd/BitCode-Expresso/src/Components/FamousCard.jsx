@@ -25,32 +25,41 @@ const FamousCard = (data) => {
                         <span className='font-bold'>Price: </span>{Coffee.price}$
                     </p>
                 </div>
-                <div className='flex justify-around items-center flex-col gap-3'>
-                    <button className="bg-red-500 rounded-xl w-10 h-8 text-white flex items-center justify-center">
-                        <FaHeart />
-                    </button>
-
-                    <Link
-                       
-                        to={`/FamousDetails/${Coffee._id}`}
-                        className="bg-[#D2B48C] rounded-xl w-10 h-8 text-white flex items-center justify-center"
-                    >
-                        <TbListDetails />
-                    </Link>
-
-                    <Link
-                        
-                        to={`/FamousDetails/${Coffee._id}`}
-                        className="bg-black rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer"
-                    >
-                       <FaComment />
-                    </Link>
-
-                   
-
-
-
-                </div>
+                <div className="relative flex flex-col items-center gap-5 md:gap-6">
+                               
+                                <p className="bg-red-500 rounded-xl w-5 h-5 text-white text-center absolute top-4 left-6 select-none text-xs font-semibold">
+                                    {Coffee.likes || 0}
+                                </p>
+                
+                                <p className="bg-black rounded-xl w-5 h-5 text-white text-center absolute bottom-[-4px] left-6 select-none text-xs font-semibold">
+                                    {Coffee.comments || 0}
+                                </p>
+                
+                             
+                                <Link
+                                    to={`/FamousDetails/${Coffee._id}`}
+                                    className="bg-red-500 rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer"
+                               
+                                >
+                                    <FaHeart />
+                                </Link>
+                
+                              
+                                <Link
+                                    to={`/FamousDetails/${Coffee._id}`}
+                                    className="bg-[#D2B48C] rounded-xl w-10 h-8 text-white flex items-center justify-center"
+                                >
+                                    <TbListDetails />
+                                </Link>
+                
+                         
+                                <Link
+                                    to={`/FamousDetails/${Coffee._id}`}
+                                    className="bg-black rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer"
+                                >
+                                    <FaComment />
+                                </Link>
+                            </div>
             </div>
         </div>
     );

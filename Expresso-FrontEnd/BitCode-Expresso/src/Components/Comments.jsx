@@ -17,7 +17,7 @@ const Comments = ({ comments, Prodcutinfo }) => {
 
         useEffect(() => {
 
-            fetch(`http://localhost:5000/OneCoffee/${Prodcutinfo._id}`)
+            fetch(`https://expresso-back-end.vercel.app/OneCoffee/${Prodcutinfo._id}`)
                 .then(res => res.json())
                 .then(data => {
                     setProduct(data)
@@ -32,7 +32,7 @@ const Comments = ({ comments, Prodcutinfo }) => {
 
     const handleDetele = (id) => {
 
-        fetch(`http://localhost:5000/DeteleComment/${id}`, {
+        fetch(`https://expresso-back-end.vercel.app/DeteleComment/${id}`, {
             method: 'DELETE',
         })
             .then((res) => {
@@ -43,7 +43,7 @@ const Comments = ({ comments, Prodcutinfo }) => {
 
                     const increase = prodcut.comments - 1;
 
-                    fetch(`http://localhost:5000/CommentCount/${prodcut._id}`, {
+                    fetch(`https://expresso-back-end.vercel.app/CommentCount/${prodcut._id}`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json'

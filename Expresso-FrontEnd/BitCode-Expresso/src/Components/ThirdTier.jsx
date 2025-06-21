@@ -13,7 +13,7 @@ const ThirdTier = ({ SecondReplay, onDelete }) => {
     const SecondReplayData = SecondReplay;
 
     useEffect(() => {
-        fetch(`http://localhost:5000/OneCoffee/${SecondReplayData.pid}`)
+        fetch(`https://expresso-back-end.vercel.app/OneCoffee/${SecondReplayData.pid}`)
             .then(res => res.json())
             .then(data => setProduct(data));
     }, [SecondReplayData.pid]);
@@ -23,7 +23,7 @@ const ThirdTier = ({ SecondReplay, onDelete }) => {
 
         if (isEditMode) {
             // PATCH for update
-            fetch(`http://localhost:5000/SecondUpdate/${SecondReplayData._id}`, {
+            fetch(`https://expresso-back-end.vercel.app/SecondUpdate/${SecondReplayData._id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ replay: editText }),
@@ -51,7 +51,7 @@ const ThirdTier = ({ SecondReplay, onDelete }) => {
             };
 
             setSubmitted(true);
-            fetch('http://localhost:5000/SecondReplay', {
+            fetch('https://expresso-back-end.vercel.app/SecondReplay', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(ReplayDetails)
@@ -63,7 +63,7 @@ const ThirdTier = ({ SecondReplay, onDelete }) => {
 
                     // Increase comment count
                     const increase = product.comments + 1;
-                    fetch(`http://localhost:5000/CommentCount/${product._id}`, {
+                    fetch(`https://expresso-back-end.vercel.app/CommentCount/${product._id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ comments: increase })

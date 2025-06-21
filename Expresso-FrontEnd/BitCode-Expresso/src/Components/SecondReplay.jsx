@@ -14,7 +14,7 @@ const SecondReplay = ({ SecondReplay, onDelete }) => {
     const SecondReplayData = SecondReplay;
 
     useEffect(() => {
-        fetch(`http://localhost:5000/SecondReplay/${SecondReplayData._id}`)
+        fetch(`https://expresso-back-end.vercel.app/SecondReplay/${SecondReplayData._id}`)
             .then(res => res.json())
             .then(data => setSecondReplies(data));
     }, [SecondReplayData._id]);
@@ -24,7 +24,7 @@ const SecondReplay = ({ SecondReplay, onDelete }) => {
 
         if (isEditMode) {
             // PATCH (Update) SecondReplay
-            fetch(`http://localhost:5000/SecondUpdate/${SecondReplayData._id}`, {
+            fetch(`https://expresso-back-end.vercel.app/SecondUpdate/${SecondReplayData._id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ replay: editText }),
@@ -52,7 +52,7 @@ const SecondReplay = ({ SecondReplay, onDelete }) => {
             };
 
             setSubmitted(true);
-            fetch('http://localhost:5000/SecondReplay', {
+            fetch('https://expresso-back-end.vercel.app/SecondReplay', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(ReplayDetails),
@@ -77,7 +77,7 @@ const SecondReplay = ({ SecondReplay, onDelete }) => {
     };
 
     const handleDeleteChild = (id) => {
-        fetch(`http://localhost:5000/DeteleSecond/${id}`, {
+        fetch(`https://expresso-back-end.vercel.app/DeteleSecond/${id}`, {
             method: 'DELETE',
         }).then((res) => {
             if (res.ok) {

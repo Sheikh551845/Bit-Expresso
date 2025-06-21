@@ -24,7 +24,7 @@ const FamousDetails = () => {
 
     useEffect(() => {
         if (user?.uid) {
-            fetch(`http://localhost:5000/hasLiked/${data._id}/${user.uid}`)
+            fetch(`https://expresso-back-end.vercel.app/hasLiked/${data._id}/${user.uid}`)
                 .then(res => res.json())
                 .then(data => {
                     setHasLiked(data.hasLiked); // backend should return { hasLiked: true/false }
@@ -33,7 +33,7 @@ const FamousDetails = () => {
     }, [user, data._id]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/Comment/${data._id}`)
+        fetch(`https://expresso-back-end.vercel.app/Comment/${data._id}`)
             .then(res => res.json())
             .then(data => {
                 setComments(data);
@@ -56,7 +56,7 @@ const FamousDetails = () => {
         };
 
         setSubmitted(true);
-        fetch('http://localhost:5000/Comment', {
+        fetch('https://expresso-back-end.vercel.app/Comment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(commentDetails)
@@ -66,7 +66,7 @@ const FamousDetails = () => {
                     setCommentCount(prev => prev + 1);
                     toast.success('Comment added');
 
-                    fetch(`http://localhost:5000/CommentCount/${data._id}`, {
+                    fetch(`https://expresso-back-end.vercel.app/CommentCount/${data._id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ comments: commentCount + 1 })
@@ -91,7 +91,7 @@ const FamousDetails = () => {
     };
 
     // First: Add like entry to "Liked info" collection
-    fetch(`http://localhost:5000/like`, {
+    fetch(`https://expresso-back-end.vercel.app/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(likeDetails)
@@ -101,7 +101,7 @@ const FamousDetails = () => {
                 toast.success('Liked!');
 
                 // ✅ Then: Update like count in product main data
-                fetch(`http://localhost:5000/LikeCount/${data._id}`, {
+                fetch(`https://expresso-back-end.vercel.app/LikeCount/${data._id}`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ likes: newLikeCount })
@@ -127,7 +127,7 @@ const FamousDetails = () => {
         <div className="min-h-screen bg-cover bg-center mt-4" style={{ backgroundImage: "url('../images/more/11.png')" }}>
             <div className="w-[90%] md:w-[80%] mx-auto py-6">
                 <button
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate("/")}
                     className="flex gap-2 items-center text-base md:text-xl border-2 border-black px-4 py-2 mb-4"
                 >
                     <GoArrowLeft className="text-2xl" />

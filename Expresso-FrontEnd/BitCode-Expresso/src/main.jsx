@@ -39,7 +39,7 @@ const router = createBrowserRouter([
           path: "/FamousDetails/:id",
           element:<PrivatePage><FamousDetails/></PrivatePage> ,
           loader: async ({ params }) => {
-            return fetch(`http://localhost:5000/OneCoffee/${params.id}`);
+            return fetch(`https://expresso-back-end.vercel.app/OneCoffee/${params.id}`);
           },
         },
 

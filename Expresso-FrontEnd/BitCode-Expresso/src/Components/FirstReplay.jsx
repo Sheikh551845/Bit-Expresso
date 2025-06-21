@@ -15,7 +15,7 @@ const FirstReplay = ({ Replay, onDelete }) => {
   const [editText, setEditText] = useState(ReplayData.replay);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/SecondReplay/${ReplayData._id}`)
+    fetch(`https://expresso-back-end.vercel.app/SecondReplay/${ReplayData._id}`)
       .then(res => res.json())
       .then(data => setSecondReplies(data));
   }, [ReplayData._id]);
@@ -24,7 +24,7 @@ const FirstReplay = ({ Replay, onDelete }) => {
     e.preventDefault();
 
     if (isEditMode) {
-      fetch(`http://localhost:5000/FirstUpdate/${ReplayData._id}`, {
+      fetch(`https://expresso-back-end.vercel.app/FirstUpdate/${ReplayData._id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ replay: editText }),
@@ -52,7 +52,7 @@ const FirstReplay = ({ Replay, onDelete }) => {
       };
 
       setSubmitted(true);
-      fetch('http://localhost:5000/SecondReplay', {
+      fetch('https://expresso-back-end.vercel.app/SecondReplay', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ const FirstReplay = ({ Replay, onDelete }) => {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/DeteleSecond/${id}`, {
+    fetch(`https://expresso-back-end.vercel.app/DeteleSecond/${id}`, {
       method: 'DELETE',
     }).then((res) => {
       if (res.ok) {
