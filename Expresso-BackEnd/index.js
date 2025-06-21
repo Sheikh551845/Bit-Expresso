@@ -54,6 +54,7 @@ async function run() {
  
    console.log(`${CommentResponse.insertedCount} documents were inserted.`);
    res.send(CommentResponse)
+  
 
    })
 
@@ -64,6 +65,7 @@ async function run() {
  
    console.log(`${FirstReplayRespose.insertedCount} documents were inserted.`);
    res.send(FirstReplayRespose)
+ 
    })
 
    //Second Replay Post
@@ -92,7 +94,7 @@ async function run() {
 app.patch('/FamousCommentCount/:id', async (req, res) => {
    const id = req.params.id;
   const { comments } = req.body;
-  console.log(comments)
+ 
 
   try {
     const result = await FamousCoffeCollection.updateOne(
@@ -110,7 +112,7 @@ app.patch('/FamousCommentCount/:id', async (req, res) => {
 app.patch('/CommentCount/:id', async (req, res) => {
    const id = req.params.id;
   const { comments } = req.body;
-  console.log(req.body)
+  
 
   try {
     const result = await ExpressoCollection.updateOne(
@@ -230,30 +232,50 @@ app.get('/Like/:uid', async(req,res)=>
   })
 
 
-  //Comment by product get
+  //Comment by product id get
   app.get('/comment/:id', async(req,res)=>
   {
         const id = req.params.id;
         const query = {pid: id}
     
         const coffee = await Comment.find(query).toArray();
+
+        res.send(coffee)
+  })
+
+   //Comment by comment id get
+  app.get('/specific/:id', async(req,res)=>
+  {
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)}
         
+    
+        const coffee = await Comment.findOne(query);
+
         res.send(coffee)
   })
   //1st replay get
 
- app.get('/FirstReplay', async(req,res)=>
+ app.get('/FirstReplay/:id', async(req,res)=>
   {
-    const AllFirstReplies = await FirstReplay.find().toArray();
-    res.send(AllFirstReplies)
+        const id = req.params.id;
+        const query = {cid: id}
+    
+        const replies = await FirstReplay.find(query).toArray();
+        
+        res.send(replies)
   })
 
   //2nd replay get
   
- app.get('/SencondReplay', async(req,res)=>
+ app.get('/SecondReplay/:id', async(req,res)=>
   {
-    const AllSecondReplies = await SencondReplay.find().toArray();
-    res.send(AllSecondReplies)
+        const id = req.params.id;
+        const query = {rid: id}
+    
+        const replies = await SencondReplay.find(query).toArray();
+      
+        res.send(replies)
   })
 
   //....................................................................

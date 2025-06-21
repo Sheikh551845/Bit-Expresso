@@ -50,7 +50,6 @@ const logout=()=>
 
 
 
-
    //Observer
    useEffect(() => {
     onAuthStateChanged(auth, (user) => {

@@ -18,6 +18,8 @@ import Registration from './Pages/Registration.jsx';
 import ProductDetails from './Pages/ProductDetails.jsx';
 import Test from './Pages/test.jsx';
 import FamousDetails from './Pages/FamousDetail.jsx';
+import PrivateRoute from './Pages/PrivatePage.jsx';
+import PrivatePage from './Pages/PrivatePage.jsx';
 
 
 
@@ -36,7 +38,7 @@ const router = createBrowserRouter([
         },
         {
           path: "/FamousDetails/:id",
-          element: <FamousDetails></FamousDetails>,
+          element:<PrivatePage><FamousDetails/></PrivatePage> ,
           loader: async ({ params }) => {
             return fetch(`http://localhost:5000/FamousOne/${params.id}`);
           },
@@ -44,7 +46,7 @@ const router = createBrowserRouter([
 
          {
           path: "/GeneralDetails/:id",
-          element: <FamousDetails></FamousDetails>,
+          element: <PrivateRoute><FamousDetails></FamousDetails></PrivateRoute>,
           loader: async ({ params }) => {
             return fetch(`http://localhost:5000/General/${params.id}`);
           },

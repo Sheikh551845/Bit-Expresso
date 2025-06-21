@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../AuthProvider';
 import { toast } from 'react-toastify';
-import ThirdTier from './ThirdTier';
 
-const TestSecond = (SecondReplay) => {
+const ThirdTier = (SecondReplay) => {
     const { user } = useContext(AuthContext)
     const [submitted, setSubmitted] = useState(false)
     const [prodcut, setProduct] = useState({})
@@ -13,8 +12,7 @@ const TestSecond = (SecondReplay) => {
 
 
 
-
- useEffect(() => {
+    useEffect(() => {
 
 
         fetch(`http://localhost:5000/SecondReplay/${SecondReplayData._id}`)
@@ -44,10 +42,12 @@ const TestSecond = (SecondReplay) => {
         , [])
 
 
- 
+    console.log(`i am inside ${SecondReplayData._id}`)
+
+    console.log(SecondReplies)
 
 
-   
+
 
 
 
@@ -72,7 +72,7 @@ const TestSecond = (SecondReplay) => {
             "replay": `${Replay}`,
             "pid": `${prodcut._id}`,
             "auther": `${user?.displayName}`,
-            "rid": `${SecondReplayData._id}`,
+            "rid": `${SecondReplayData.rid}`,
             "cid": `${SecondReplayData.cid}`
         }
         setSubmitted(true)
@@ -121,8 +121,7 @@ const TestSecond = (SecondReplay) => {
 
     return (
 
-        <div className=' flex justify-end items-end'>
-            <div className='w-[95%]'>
+            <div className=''>
                 <div className='w-full'>
 
         
@@ -187,14 +186,10 @@ const TestSecond = (SecondReplay) => {
 
                 </form>
 
-                {SecondReplies.map(SecondReplay => (
-               <ThirdTier key={SecondReplay._id} SecondReplay={SecondReplay}></ThirdTier>
-            ))}
-
+               
             </div>
 
-        </div>
     );
 };
 
-export default TestSecond;
+export default ThirdTier;

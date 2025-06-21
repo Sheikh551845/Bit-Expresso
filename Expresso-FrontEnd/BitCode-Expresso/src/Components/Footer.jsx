@@ -8,7 +8,7 @@ import { MdMail } from 'react-icons/md';
 const Footer = () => {
   return (
     <div>
-      <footer className="  bg-cover bg-center text-black shadow-sm items-center p-4" style={{ backgroundImage: "url('./src/images/more/13.jpg')" }}>
+      <footer className=" bg-base-200 bg-cover bg-center text-black shadow-sm items-center p-4" style={{ backgroundImage: "url('./src/images/more/13.jpg')" }}>
         <div className='flex justify-between items-center w-full md:w-[80%] mx-auto gap-2'>
           <div className='flex flex-col items-start gap-1'>
              <div className="flex justify-center items-center gap-2">
