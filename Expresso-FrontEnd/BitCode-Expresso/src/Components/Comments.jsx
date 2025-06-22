@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Comment from './Comment';
 import { toast } from 'react-toastify';
+import { ClockLoader } from 'react-spinners';
 
 const Comments = ({ comments, Prodcutinfo }) => {
 
@@ -13,7 +14,7 @@ const Comments = ({ comments, Prodcutinfo }) => {
     }, [comments]);
 
 
-
+    console.log(prodcut)
 
         useEffect(() => {
 
@@ -74,12 +75,18 @@ const Comments = ({ comments, Prodcutinfo }) => {
         <div>
             {Allcomments.length>0? <p className='text-center mb-4 text-3xl text-[#6f4e37] font-bold'>Comments </p>: ""}
             
-            <div className=' overflow-y-auto'>
+            {prodcut.comments>0 && Allcomments.length==0 ? 
+            <div className="flex justify-center items-center h-[20vh]">
+                        <ClockLoader color="#6f4e37" size={100} />
+                    </div>:
+                     <div className=' overflow-y-auto'>
                 {Allcomments.map((comment) => (
                     <Comment key={comment._id} comment={comment} onDelete={handleDetele} />
                 ))}
 
             </div>
+            }
+           
 
 
 

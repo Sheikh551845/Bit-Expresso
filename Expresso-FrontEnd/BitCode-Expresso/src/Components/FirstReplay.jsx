@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-
 import { AuthContext } from '../AuthProvider';
 import { toast } from 'react-toastify';
 import SecondReplay from './SecondReplay';
@@ -34,7 +33,7 @@ const FirstReplay = ({ Replay, onDelete }) => {
           toast.success("Reply updated");
           setFormVisible(false);
           setIsEditMode(false);
-          setEditText('')
+          setEditText('');
         });
     } else {
       if (replyText.length > 300) {
@@ -54,18 +53,15 @@ const FirstReplay = ({ Replay, onDelete }) => {
       setSubmitted(true);
       fetch('https://bit-expresso-server.onrender.com/SecondReplay', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(ReplayDetails)
-      })
-        .then(res => {
-          if (res.status === 200) {
-            setFormVisible(false);
-            setReplyText('');
-            toast.success('Reply added');
-          }
-        });
+      }).then(res => {
+        if (res.status === 200) {
+          setFormVisible(false);
+          setReplyText('');
+          toast.success('Reply added');
+        }
+      });
     }
   };
 
@@ -94,20 +90,20 @@ const FirstReplay = ({ Replay, onDelete }) => {
 
   return (
     <div className='flex justify-end items-end'>
-      <div className='w-[95%]'>
+      <div className='w-full md:w-[95%]'>
         <div className='w-full flex justify-end items-end mt-2'>
-          <div className="card bg-base-100 min-w-full shadow-sm p-2 border-t-3 border-amber-700">
-            <div className='flex justify-between items-center'>
-              <div>
-                <h2 className="card-title">{ReplayData.auther}</h2>
-                <p className='text-xl'>{ReplayData.replay}</p>
+          <div className="card bg-base-100 w-full shadow-sm p-3 md:p-4 border-t-4 border-amber-700">
+            <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-3'>
+              <div className='w-full'>
+                <h2 className="card-title text-sm md:text-lg font-semibold">{ReplayData.auther}</h2>
+                <p className='text-sm md:text-base break-words'>{ReplayData.replay}</p>
               </div>
-              <div className='flex gap-3'>
-                <button onClick={handleReply} className="bg-black rounded-xl w-12 h-8 text-white flex items-center justify-center p-2">Reply</button>
+              <div className='flex flex-wrap gap-2'>
+                <button onClick={handleReply} className="bg-black text-white px-4 py-1 rounded-md text-sm">Reply</button>
                 {user?.uid === ReplayData.uid && (
                   <>
-                    <button onClick={handleUpdate} className="bg-green-500 rounded-xl w-12 h-8 text-white flex items-center justify-center p-2">Edit</button>
-                    <button onClick={() => onDelete(ReplayData._id)} className="bg-red-500 rounded-xl w-12 h-8 text-white flex items-center justify-center p-2">Delete</button>
+                    <button onClick={handleUpdate} className="bg-green-500 text-white px-4 py-1 rounded-md text-sm">Edit</button>
+                    <button onClick={() => onDelete(ReplayData._id)} className="bg-red-500 text-white px-4 py-1 rounded-md text-sm">Delete</button>
                   </>
                 )}
               </div>
@@ -116,39 +112,26 @@ const FirstReplay = ({ Replay, onDelete }) => {
         </div>
 
         {formVisible && (
-          <form onSubmit={handleSecondReplySubmit} className="card-body">
-            {!isEditMode ? (
-              <div className="form-control">
-                <textarea
-                  name='SecondReply'
-                  placeholder="Not more than 300 words"
-                  className="input text-xl"
-                  value={replyText}
-                  onChange={e => setReplyText(e.target.value)}
-                  required
-                />
-              </div>
-            ) : (
-              <div className="form-control">
-                <textarea
-                  name='Update'
-                  placeholder="Not more than 300 words"
-                  className="input text-xl"
-                  value={editText}
-                  onChange={e => setEditText(e.target.value)}
-                  required
-                />
-              </div>
-            )}
-            <div className="form-control mt-6 flex gap-2">
-              <button className="btn btn-success text-white" type='submit' disabled={submitted}>Submit</button>
-              <button type='button' className="btn btn-error text-white" onClick={() => setFormVisible(false)}>Close</button>
+          <form onSubmit={handleSecondReplySubmit} className="card-body px-3 md:px-4">
+            <div className="form-control">
+              <textarea
+                name={isEditMode ? 'Update' : 'SecondReply'}
+                placeholder="Not more than 300 words"
+                className="input text-sm md:text-base textarea textarea-bordered"
+                value={isEditMode ? editText : replyText}
+                onChange={e => isEditMode ? setEditText(e.target.value) : setReplyText(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-control mt-4 flex gap-2">
+              <button className="btn btn-success text-white text-sm md:text-base" type='submit' disabled={submitted}>Submit</button>
+              <button type='button' className="btn btn-error text-white text-sm md:text-base" onClick={() => setFormVisible(false)}>Close</button>
             </div>
           </form>
         )}
 
         <div className='w-full'>
-          {SecondReplies?.map((secondReplay, index) => (
+          {SecondReplies.map((secondReplay, index) => (
             <SecondReplay key={index} SecondReplay={secondReplay} onDelete={handleDelete} />
           ))}
         </div>
