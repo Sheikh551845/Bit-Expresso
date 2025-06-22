@@ -34,7 +34,7 @@ export default function Registration() {
 
 
         if (!passwordRegex.test(password)) {
-            toast.error("password credential not match");
+            toast.error("Password must be at least 6 characters, include uppercase, lowercase, number, and special character.");
             return;
         }
 

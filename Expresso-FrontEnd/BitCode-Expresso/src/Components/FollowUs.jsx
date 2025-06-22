@@ -8,23 +8,21 @@ import six from '../images/cups/Rectangle 14.png';
 import seven from '../images/cups/Rectangle 15.png';
 import eight from '../images/cups/Rectangle 16.png';
 
-
 const FollowUs = () => {
     return (
-        <div><div className=" w-[80%] mx-auto flex flex-col justify-center items-center text-center my-10">
-                <p className="text-[#6f4e37]">--- Follow Us ---</p>
-                <p className="text-2xl font-bold text-[#6f4e37]">On Facebook</p>
+        <div className="w-[90%] md:w-[80%] mx-auto my-10 text-center">
+            <p className="text-[#6f4e37]">--- Follow Us ---</p>
+            <p className="text-2xl font-bold text-[#6f4e37] mb-6">On Facebook</p>
 
-                <div className='grid grid-cols-4 w-full gap-1 md:gap-2 mt-2 p-1 md:p-3'>
-                    <img className='w-[212px] h-[250px] md:w-[312px] md:h-[350px]' src={one} alt="" />
-                    <img className='w-[212px] h-[250px] md:w-[312px] md:h-[350px]' src={two} alt="" />
-                    <img className='w-[212px] h-[250px] md:w-[312px] md:h-[350px]' src={three} alt="" />
-                    <img className='w-[212px] h-[250px] md:w-[312px] md:h-[350px]' src={four} alt="" />
-                    <img className='w-[212px] h-[250px] md:w-[312px] md:h-[350px]' src={five} alt="" />
-                    <img className='w-[212px] h-[250px] md:w-[312px] md:h-[350px]' src={six} alt="" />
-                    <img className='w-[212px] h-[250px] md:w-[312px] md:h-[350px]' src={seven} alt="" />
-                    <img className='w-[212px] h-[250px] md:w-[312px] md:h-[350px]' src={eight} alt="" />
-                </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+                {[one, two, three, four, five, six, seven, eight].map((img, idx) => (
+                    <img
+                        key={idx}
+                        src={img}
+                        alt={`cup-${idx}`}
+                        className="w-full h-auto object-cover rounded shadow-md"
+                    />
+                ))}
             </div>
         </div>
     );

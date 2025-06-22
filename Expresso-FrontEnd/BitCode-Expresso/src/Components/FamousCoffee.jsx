@@ -7,7 +7,7 @@ const FamousCoffee = () => {
     const [FamousCoffee, setFamousCoffee] = useState([]);
 
     useEffect(() => {
-        fetch('https://expresso-back-end.vercel.app/AllCoffees')
+        fetch('https://bit-expresso-server.onrender.com/AllCoffees')
             .then(res => res.json())
             .then(data => {
                 setFamousCoffee(data.slice(0, 6));
@@ -16,12 +16,12 @@ const FamousCoffee = () => {
 
     return (
         <div className="relative w-full mt-10">
-            {/* Background Image */}
+          
             <div className="hidden md:block fixed top-0 left-0 w-full h-full -z-10">
                 <img src={chobi} alt="" className="w-full h-full object-cover" />
             </div>
 
-            {/* Foreground Content */}
+           
             <div className="w-[90%] md:w-[80%] mx-auto py-10 md:py-20">
                 <div className="text-center mb-8">
                     <p className="text-[#6f4e37]">--- Sip & Savor ---</p>

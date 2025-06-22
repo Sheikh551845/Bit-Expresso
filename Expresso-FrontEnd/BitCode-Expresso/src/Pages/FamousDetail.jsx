@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FaComment, FaHeart } from 'react-icons/fa';
 import { GoArrowLeft } from 'react-icons/go';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../AuthProvider';
 import Comments from '../Components/Comments';
 import { ClockLoader } from 'react-spinners';
 
 const FamousDetails = () => {
+    const location=useLocation()
     const navigate = useNavigate();
     const data = useLoaderData();
     const { user } = useContext(AuthContext);
@@ -21,19 +22,18 @@ const FamousDetails = () => {
 
 
 
-
     useEffect(() => {
         if (user?.uid) {
-            fetch(`https://expresso-back-end.vercel.app/hasLiked/${data._id}/${user.uid}`)
+            fetch(`https://bit-expresso-server.onrender.com/hasLiked/${data._id}/${user.uid}`)
                 .then(res => res.json())
                 .then(data => {
-                    setHasLiked(data.hasLiked); // backend should return { hasLiked: true/false }
+                    setHasLiked(data.hasLiked); 
                 });
         }
     }, [user, data._id]);
 
     useEffect(() => {
-        fetch(`https://expresso-back-end.vercel.app/Comment/${data._id}`)
+        fetch(`https://bit-expresso-server.onrender.com/Comment/${data._id}`)
             .then(res => res.json())
             .then(data => {
                 setComments(data);
@@ -56,7 +56,7 @@ const FamousDetails = () => {
         };
 
         setSubmitted(true);
-        fetch('https://expresso-back-end.vercel.app/Comment', {
+        fetch('https://bit-expresso-server.onrender.com/Comment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(commentDetails)
@@ -66,7 +66,7 @@ const FamousDetails = () => {
                     setCommentCount(prev => prev + 1);
                     toast.success('Comment added');
 
-                    fetch(`https://expresso-back-end.vercel.app/CommentCount/${data._id}`, {
+                    fetch(`https://bit-expresso-server.onrender.com/CommentCount/${data._id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ comments: commentCount + 1 })
@@ -91,7 +91,7 @@ const FamousDetails = () => {
     };
 
     // First: Add like entry to "Liked info" collection
-    fetch(`https://expresso-back-end.vercel.app/like`, {
+    fetch(`https://bit-expresso-server.onrender.com/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(likeDetails)
@@ -101,7 +101,7 @@ const FamousDetails = () => {
                 toast.success('Liked!');
 
                 // ✅ Then: Update like count in product main data
-                fetch(`https://expresso-back-end.vercel.app/LikeCount/${data._id}`, {
+                fetch(`https://bit-expresso-server.onrender.com/LikeCount/${data._id}`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ likes: newLikeCount })
@@ -127,7 +127,7 @@ const FamousDetails = () => {
         <div className="min-h-screen bg-cover bg-center mt-4" style={{ backgroundImage: "url('../images/more/11.png')" }}>
             <div className="w-[90%] md:w-[80%] mx-auto py-6">
                 <button
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate(`${location.state.from}`)}
                     className="flex gap-2 items-center text-base md:text-xl border-2 border-black px-4 py-2 mb-4"
                 >
                     <GoArrowLeft className="text-2xl" />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import GeneralCard from '../Components/GeneralCard';
 import chobi from '../images/more/1.png';
+import { ClockLoader } from 'react-spinners';
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
@@ -8,7 +9,7 @@ const AllProducts = () => {
     const [sortOption, setSortOption] = useState('');
 
     useEffect(() => {
-        fetch('https://expresso-back-end.vercel.app/AllCoffees')
+        fetch('https://bit-expresso-server.onrender.com/AllCoffees')
             .then(res => res.json())
             .then(data => {
                 setProducts(data);
@@ -53,6 +54,18 @@ const AllProducts = () => {
                         <option value="price">Lowest Price</option>
                     </select>
                 </div>
+
+                {sortedProducts.length === 0 ? (
+                    <div className="flex justify-center items-center h-[50vh]">
+                        <ClockLoader color="#6f4e37" size={150} />
+                    </div>
+                ) : (
+                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {sortedProducts.map((coffee) => (
+                        <GeneralCard key={coffee._id} Coffee={coffee} />
+                    ))}
+                </div>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {sortedProducts.map((coffee) => (

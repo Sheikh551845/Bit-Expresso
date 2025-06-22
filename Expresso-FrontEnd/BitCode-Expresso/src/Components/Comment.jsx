@@ -14,7 +14,7 @@ const Comment = ({ comment, onDelete }) => {
   const [editText, setEditText] = useState(CommentData.comment);
 
   useEffect(() => {
-    fetch(`https://expresso-back-end.vercel.app/FirstReplay/${CommentData._id}`)
+    fetch(`https://bit-expresso-server.onrender.com/FirstReplay/${CommentData._id}`)
       .then(res => res.json())
       .then(data => setFirstReplies(data));
   }, [CommentData._id]);
@@ -24,7 +24,7 @@ const Comment = ({ comment, onDelete }) => {
 
     if (isEditMode) {
   
-      fetch(`https://expresso-back-end.vercel.app/CommentUpdate/${CommentData._id}`, {
+      fetch(`https://bit-expresso-server.onrender.com/CommentUpdate/${CommentData._id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ comment: editText }),
@@ -56,7 +56,7 @@ const Comment = ({ comment, onDelete }) => {
       console.log(ReplayDetails)
 
       setSubmitted(true);
-      fetch('https://expresso-back-end.vercel.app/FirstReplay', {
+      fetch('https://bit-expresso-server.onrender.com/FirstReplay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(ReplayDetails)
@@ -81,7 +81,7 @@ const Comment = ({ comment, onDelete }) => {
   };
 
   const handleDeleteReply = (id) => {
-    fetch(`https://expresso-back-end.vercel.app/DeleteFirst/${id}`, {
+    fetch(`https://bit-expresso-server.onrender.com/DeleteFirst/${id}`, {
       method: 'DELETE',
     }).then(res => {
       if (res.ok) {

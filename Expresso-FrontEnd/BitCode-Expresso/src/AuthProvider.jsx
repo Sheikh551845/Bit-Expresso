@@ -30,7 +30,7 @@ export default function AuthProvider({children}) {
 
 
   useEffect(()=>{
-   fetch(`https://expresso-back-end.vercel.app/AllComment`)
+   fetch(`https://bit-expresso-server.onrender.com/AllComment`)
             .then(res => res.json())
             .then(data => {
                 setAllComments(data)
@@ -42,7 +42,7 @@ export default function AuthProvider({children}) {
   [])
 
   useEffect(()=>{
-   fetch(`https://expresso-back-end.vercel.app/AllFirst`)
+   fetch(`https://bit-expresso-server.onrender.com/AllFirst`)
             .then(res => res.json())
             .then(data => {
                 setAllFirst(data)
@@ -54,7 +54,7 @@ export default function AuthProvider({children}) {
   [])
 
     useEffect(()=>{
-   fetch(`https://expresso-back-end.vercel.app/AllSecond`)
+   fetch(`https://bit-expresso-server.onrender.com/AllSecond`)
             .then(res => res.json())
             .then(data => {
                 setAllSecond(data)

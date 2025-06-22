@@ -8,12 +8,15 @@ export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const from = location.state?.from?.pathname || '/';
+    const from = location?.state || "/" ;
+
 
     useEffect(() => {
-        if (user) {
-            navigate(from, { replace: true });
+        if (user?.email) {
+            navigate(`${from}`);
         }
+
+
     }, [user, navigate, from]);
 
     const handleSubmit = (event) => {
@@ -29,7 +32,7 @@ export default function Login() {
         login(email, password)
             .then(() => {
                 toast.success('Logged in successfully');
-                // Do not navigate here — useEffect will handle it
+                
             })
             .catch(error => {
                 toast.error(error.message);

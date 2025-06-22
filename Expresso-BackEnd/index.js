@@ -5,17 +5,22 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port= process.env.PORT|| 5000;
 
-//middleware
+const corsConfig ={
+origin : "*",
+credential : true,
+ methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+}
 
-app.use(cors());
+app.use(cors(corsConfig));
 app.use(express.json());
+app.options("", cors(corsConfig))
 
 
 
 
 const uri = `mongodb+srv://${process.env.DB_User}:${process.env.DB_Pass}@cluster0.4kc4xcj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -38,7 +43,7 @@ async function run() {
     
 
 
-  //...............................................................................................
+  //..........................................................................................
    //all Post are from here
 
    //Comment Post

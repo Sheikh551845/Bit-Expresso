@@ -1,9 +1,10 @@
 import React from 'react';
 import { FaComment, FaHeart } from 'react-icons/fa';
 import { TbListDetails } from 'react-icons/tb';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const GeneralCard = ({ Coffee }) => {
+    const location=useLocation()
     return (
         <div className="bg-[#F5F4F1] rounded-2xl flex flex-col md:flex-row justify-between items-center p-4 shadow-md hover:shadow-xl transition-shadow duration-300">
             
@@ -41,6 +42,7 @@ const GeneralCard = ({ Coffee }) => {
              
                 <Link
                     to={`/FamousDetails/${Coffee._id}`}
+                     state={{ from: location.pathname }}
                     className="bg-red-500 rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer"
                
                 >
@@ -50,6 +52,7 @@ const GeneralCard = ({ Coffee }) => {
               
                 <Link
                     to={`/FamousDetails/${Coffee._id}`}
+                     state={{ from: location.pathname }}
                     className="bg-[#D2B48C] rounded-xl w-10 h-8 text-white flex items-center justify-center"
                 >
                     <TbListDetails />
@@ -58,6 +61,7 @@ const GeneralCard = ({ Coffee }) => {
          
                 <Link
                     to={`/FamousDetails/${Coffee._id}`}
+                     state={{ from: location.pathname }}
                     className="bg-black rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer"
                 >
                     <FaComment />

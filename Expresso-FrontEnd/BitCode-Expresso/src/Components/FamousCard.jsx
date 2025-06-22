@@ -1,9 +1,10 @@
 import React from 'react';
 import { FaComment, FaHeart, FaRegComment, FaRegHeart } from 'react-icons/fa';
 import { TbListDetails } from 'react-icons/tb';
-import { Link, Navigate, NavLink } from 'react-router-dom';
+import { Link, Navigate, NavLink, useLocation } from 'react-router-dom';
 
 const FamousCard = (data) => {
+    const location = useLocation()
     const { Coffee } = data
 
  
@@ -37,9 +38,9 @@ const FamousCard = (data) => {
                 
                              
                                 <Link
-                                    to={`/FamousDetails/${Coffee._id}`}
+                                    to={`/FamousDetails/${Coffee._id}` }
                                     className="bg-red-500 rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer"
-                               
+                                state={{ from: location.pathname }}
                                 >
                                     <FaHeart />
                                 </Link>
@@ -47,6 +48,7 @@ const FamousCard = (data) => {
                               
                                 <Link
                                     to={`/FamousDetails/${Coffee._id}`}
+                                   state={{ from: location.pathname }}
                                     className="bg-[#D2B48C] rounded-xl w-10 h-8 text-white flex items-center justify-center"
                                 >
                                     <TbListDetails />
@@ -55,6 +57,7 @@ const FamousCard = (data) => {
                          
                                 <Link
                                     to={`/FamousDetails/${Coffee._id}`}
+                                     state={{ from: location.pathname }}
                                     className="bg-black rounded-xl w-10 h-8 text-white flex items-center justify-center cursor-pointer"
                                 >
                                     <FaComment />
